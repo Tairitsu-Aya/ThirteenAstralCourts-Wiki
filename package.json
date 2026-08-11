@@ -1,0 +1,17 @@
+{
+  "name": "thirteen-astral-courts-wiki",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "sync": "node scripts/sync-content.mjs",
+    "validate": "node scripts/validate-content.mjs",
+    "build": "npm run validate && vite build",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "devDependencies": {
+    "hjson": "3.2.2",
+    "vite": "8.2.1"
+  }
+}
