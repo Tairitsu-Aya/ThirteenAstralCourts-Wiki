@@ -73,6 +73,25 @@ for (const step of data.progression || []) {
 if ((data.progression || []).length !== 7) failures.push("Boss 流程应包含 7 个步骤。");
 
 const byName = new Map((data.entries || []).map((entry) => [entry.internalName, entry]));
+for (const entry of data.entries || []) {
+  for (const recipe of entry.recipes || []) {
+    for (const ingredient of recipe.ingredients || []) {
+      if (ingredient.vanilla) continue;
+      const target = byName.get(ingredient.id);
+      if (!target?.image) failures.push(`模组合成材料缺少可显示贴图: ${entry.id} -> ${ingredient.id}`);
+    }
+  }
+  for (const drop of entry.drops || []) {
+    if (drop.vanilla) continue;
+    const target = byName.get(drop.item);
+    if (!target?.image) failures.push(`模组掉落物缺少可显示贴图: ${entry.id} -> ${drop.item}`);
+  }
+  for (const drop of entry.dropSources || []) {
+    const source = byName.get(drop.source);
+    if (source && !source.image) failures.push(`掉落来源缺少可显示贴图: ${entry.id} -> ${drop.source}`);
+  }
+}
+
 if (byName.get("VitalArmorResonanceCore")?.recipes?.length !== 2) {
   failures.push("VitalArmorResonanceCore 的钴/钯两条配方未完整展开。");
 }

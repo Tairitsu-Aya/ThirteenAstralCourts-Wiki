@@ -16,6 +16,39 @@ const entries = wikiData.entries;
 const byId = new Map(entries.map((entry) => [entry.id, entry]));
 const byName = new Map(entries.map((entry) => [entry.internalName, entry]));
 
+const EXTERNAL_WIKIS = Object.freeze({
+  terraria: {
+    articleBase: "https://terraria.wiki.gg/wiki/",
+    apiUrl: "https://terraria.wiki.gg/api.php",
+    badge: "TW"
+  }
+});
+
+const VANILLA_WIKI_TITLES = Object.freeze({
+  BandofRegeneration: "Band of Regeneration",
+  FossilOre: "Desert Fossil",
+  FragmentNebula: "Nebula Fragment",
+  FragmentSolar: "Solar Fragment",
+  FragmentStardust: "Stardust Fragment",
+  FragmentVortex: "Vortex Fragment",
+  LunarBar: "Luminite Bar",
+  LunarTabletFragment: "Solar Tablet Fragment",
+  PaladinsShield: "Paladin's Shield",
+  SoulofFlight: "Soul of Flight",
+  SoulofLight: "Soul of Light",
+  SoulofNight: "Soul of Night",
+  Vertebrae: "Vertebra"
+});
+
+const VANILLA_SOURCE_WIKI = Object.freeze({
+  VanillaMartianWalker: { pageTitle: "Martian Walker", imageTitle: "Martian Walker" },
+  VanillaMartianEngineer: { pageTitle: "Martian Engineer", imageTitle: "Martian Engineer" },
+  VanillaMartianCommonEnemies: { pageTitle: "Martian Madness", imageTitle: "Martian Madness" },
+  VanillaMartianHeavyEnemies: { pageTitle: "Martian Madness", imageTitle: "Martian Madness" }
+});
+
+const externalWikiThumbnailCache = new Map();
+
 const state = {
   lang: localStorage.getItem("tac-wiki-lang") || "zh",
   theme: localStorage.getItem("tac-wiki-theme") || "dark",
@@ -31,6 +64,7 @@ const CATEGORY_ROUTES = [
   ["weapons", "weapons", "✦"],
   ["armor", "armor", "◇"],
   ["accessories", "accessories", "◈"],
+  ["materials", "materials", "⬢"],
   ["bosses", "bosses", "◆"],
   ["enemies", "enemies", "△"],
   ["world", "world", "▦"],
@@ -145,6 +179,10 @@ function humanize(value) {
     .replace("Soulof", "Soul of ")
     .replaceAll("_", " ")
     .trim();
+}
+
+function vanillaWikiTitle(value) {
+  return VANILLA_WIKI_TITLES[value] || humanize(value).replace(/\s+/g, " ");
 }
 
 function labelForCategory(value) {
@@ -335,6 +373,7 @@ function renderHome() {
     ["weapons", wikiData.coverage.itemCategories.Weapons || 0, "✦"],
     ["armor", wikiData.coverage.itemCategories.Armor || 0, "◇"],
     ["accessories", wikiData.coverage.itemCategories.Accessories || 0, "◈"],
+    ["materials", wikiData.coverage.itemCategories.Materials || 0, "⬢"],
     ["bosses", wikiData.coverage.bosses, "◆"],
     ["enemies", wikiData.coverage.enemies, "△"],
     ["world", wikiData.coverage.tiles + (wikiData.coverage.itemCategories.Placeable || 0), "▦"]
@@ -446,7 +485,7 @@ function renderCategory(slug, query) {
       ${stages.length ? `<label><span>${escapeHtml(t("stage"))}</span><select data-filter="stage" data-category="${slug}"><option value="">${escapeHtml(t("all"))}</option>${stages.map((value) => `<option value="${escapeHtml(value.key)}"${query.get("stage") === value.key ? " selected" : ""}>${escapeHtml(l(value))}</option>`).join("")}</select></label>` : ""}
       <span class="result-count">${filtered.length} / ${allForCategory.length}</span>
     </section>
-    <section class="category-results">
+    <section class="category-results category-results-${escapeHtml(slug)}">
       ${filtered.length
         ? cardMode
           ? `<div class="entry-card-grid">${filtered.map(entryCard).join("")}</div>`
@@ -477,9 +516,10 @@ function entryCard(entry) {
 
 function entryTable(list) {
   return `<table class="entry-table">
-    <thead><tr><th>${escapeHtml(state.lang === "zh" ? "条目" : "Entry")}</th><th>${escapeHtml(t("category"))}</th><th>${escapeHtml(t("stage"))}</th><th>${escapeHtml(t("statistics"))}</th></tr></thead>
+    <thead><tr><th class="entry-image-column">${escapeHtml(state.lang === "zh" ? "图片" : "Image")}</th><th>${escapeHtml(state.lang === "zh" ? "条目" : "Entry")}</th><th>${escapeHtml(t("category"))}</th><th>${escapeHtml(t("stage"))}</th><th>${escapeHtml(t("statistics"))}</th></tr></thead>
     <tbody>${list.map((entry) => `<tr>
-      <td><a class="table-entry-name" href="${entryHref(entry)}">${sprite(entry, "sm")}<span><strong>${escapeHtml(l(entry.name))}</strong><small>${escapeHtml(entry.internalName)}</small></span></a></td>
+      <td class="entry-image-cell"><a href="${entryHref(entry)}" aria-label="${escapeHtml(l(entry.name))}">${sprite(entry, "sm", entry.isBoss)}</a></td>
+      <td><a class="table-entry-name" href="${entryHref(entry)}"><span><strong>${escapeHtml(l(entry.name))}</strong><small>${escapeHtml(entry.internalName)}</small></span></a></td>
       <td>${escapeHtml(entry.subcategory ? labelForClass(entry.subcategory) : labelForCategory(entry.category))}</td>
       <td>${escapeHtml(entryStage(entry) || t("emptyValue"))}</td>
       <td>${compactStats(entry)}</td>
@@ -585,35 +625,50 @@ function renderItemBody(entry) {
 }
 
 function renderRecipes(entry) {
-  return `<div class="recipe-list">${entry.recipes.map((recipe, index) => `<article class="recipe-card"><header><strong>${escapeHtml(t("recipe"))} ${entry.recipes.length > 1 ? index + 1 : ""}</strong><span>${escapeHtml(state.lang === "zh" ? `产出 ×${recipe.resultCount}` : `Produces ×${recipe.resultCount}`)}</span></header><table><thead><tr><th>${escapeHtml(t("ingredient"))}</th><th>${escapeHtml(t("amount"))}</th></tr></thead><tbody>${recipe.ingredients.map((ingredient) => `<tr><td>${ingredientLink(ingredient)}</td><td>${ingredient.count}</td></tr>`).join("")}</tbody></table><footer><span><b>${escapeHtml(t("station"))}:</b> ${escapeHtml(humanize(recipe.station) || t("emptyValue"))}</span>${recipe.conditions.length ? `<span><b>${escapeHtml(t("condition"))}:</b> ${escapeHtml(recipe.conditions.map(humanize).join(", "))}</span>` : ""}</footer></article>`).join("")}</div>`;
+  return `<div class="recipe-list">${entry.recipes.map((recipe, index) => `<article class="recipe-card"><header><strong>${escapeHtml(t("recipe"))} ${entry.recipes.length > 1 ? index + 1 : ""}</strong><span class="recipe-output">${sprite(entry, "xs")}<span><b>${escapeHtml(l(entry.name))}</b> ×${recipe.resultCount}</span></span></header><table><thead><tr><th>${escapeHtml(t("ingredient"))}</th><th>${escapeHtml(t("amount"))}</th></tr></thead><tbody>${recipe.ingredients.map((ingredient) => `<tr><td>${ingredientLink(ingredient)}</td><td>${ingredient.count}</td></tr>`).join("")}</tbody></table><footer><span><b>${escapeHtml(t("station"))}:</b> ${escapeHtml(humanize(recipe.station) || t("emptyValue"))}</span>${recipe.conditions.length ? `<span><b>${escapeHtml(t("condition"))}:</b> ${escapeHtml(recipe.conditions.map(humanize).join(", "))}</span>` : ""}</footer></article>`).join("")}</div>`;
 }
 
 function ingredientLink(ingredient) {
   const target = byName.get(ingredient.id);
-  if (!ingredient.vanilla && target) return `<a class="inline-entry" href="${entryHref(target)}">${escapeHtml(l(target.name))}</a>`;
-  const label = humanize(ingredient.id);
-  const vanillaUrl = `https://terraria.wiki.gg/wiki/${encodeURIComponent(label.replaceAll(" ", "_"))}`;
-  return `<a class="external-entry" href="${vanillaUrl}" target="_blank" rel="noreferrer">${escapeHtml(label)}<sup>↗</sup></a>`;
+  if (!ingredient.vanilla && target) return visualEntryLink(target, "inline-entry recipe-entry-link");
+  const title = vanillaWikiTitle(ingredient.id);
+  return externalWikiEntry({ label: title, pageTitle: title, imageTitle: title }, "recipe-entry-link");
 }
 
 function renderDropSources(entry) {
-  return `<div class="data-table-wrap"><table class="data-table"><thead><tr><th>${escapeHtml(state.lang === "zh" ? "来源" : "Source")}</th><th>${escapeHtml(t("chance"))}</th><th>${escapeHtml(t("amount"))}</th><th>${escapeHtml(t("condition"))}</th></tr></thead><tbody>${entry.dropSources.map((drop) => {
+  return `<div class="data-table-wrap"><table class="data-table drop-table"><thead><tr><th>${escapeHtml(state.lang === "zh" ? "来源" : "Source")}</th><th>${escapeHtml(t("chance"))}</th><th>${escapeHtml(t("amount"))}</th><th>${escapeHtml(t("condition"))}</th></tr></thead><tbody>${entry.dropSources.map((drop) => {
     const source = byName.get(drop.source);
     const sourceLabel = source ? l(source.name) : drop.sourceLabel ? l(drop.sourceLabel) : humanize(drop.source);
-    return `<tr><td>${source ? `<a href="${entryHref(source)}">${escapeHtml(sourceLabel)}</a>` : escapeHtml(sourceLabel)}</td><td>${drop.chanceDenominator ? `1/${drop.chanceDenominator}` : "100%"}</td><td>${drop.minimum === drop.maximum ? drop.minimum : `${drop.minimum}–${drop.maximum}`}</td><td>${escapeHtml(drop.condition ? l(drop.condition) : t("emptyValue"))}</td></tr>`;
+    const externalSource = VANILLA_SOURCE_WIKI[drop.source];
+    const sourceCell = source
+      ? visualEntryLink(source, "drop-entry-link")
+      : externalSource
+        ? externalWikiEntry({ label: sourceLabel, ...externalSource }, "drop-entry-link")
+        : escapeHtml(sourceLabel);
+    return `<tr><td>${sourceCell}</td><td>${drop.chanceDenominator ? `1/${drop.chanceDenominator}` : "100%"}</td><td>${drop.minimum === drop.maximum ? drop.minimum : `${drop.minimum}–${drop.maximum}`}</td><td>${escapeHtml(drop.condition ? l(drop.condition) : t("emptyValue"))}</td></tr>`;
   }).join("")}</tbody></table></div>`;
 }
 
 function renderOutgoingDrops(entry) {
-  return `<div class="data-table-wrap"><table class="data-table"><thead><tr><th>${escapeHtml(state.lang === "zh" ? "物品" : "Item")}</th><th>${escapeHtml(t("chance"))}</th><th>${escapeHtml(t("amount"))}</th><th>${escapeHtml(t("condition"))}</th></tr></thead><tbody>${entry.drops.map((drop) => {
+  return `<div class="data-table-wrap"><table class="data-table drop-table"><thead><tr><th>${escapeHtml(state.lang === "zh" ? "物品" : "Item")}</th><th>${escapeHtml(t("chance"))}</th><th>${escapeHtml(t("amount"))}</th><th>${escapeHtml(t("condition"))}</th></tr></thead><tbody>${entry.drops.map((drop) => {
     const target = !drop.vanilla ? byName.get(drop.item) : null;
-    const label = target ? l(target.name) : humanize(drop.item);
-    const vanillaUrl = `https://terraria.wiki.gg/wiki/${encodeURIComponent(label.replaceAll(" ", "_"))}`;
+    const label = target ? l(target.name) : vanillaWikiTitle(drop.item);
     const itemCell = target
-      ? `<a href="${entryHref(target)}">${escapeHtml(label)}</a>`
-      : `<a class="external-entry" href="${vanillaUrl}" target="_blank" rel="noreferrer">${escapeHtml(label)}<sup>↗</sup></a>`;
+      ? visualEntryLink(target, "drop-entry-link")
+      : externalWikiEntry({ label, pageTitle: label, imageTitle: label }, "drop-entry-link");
     return `<tr><td>${itemCell}</td><td>${drop.chanceDenominator ? `1/${drop.chanceDenominator}` : "100%"}</td><td>${drop.minimum === drop.maximum ? drop.minimum : `${drop.minimum}–${drop.maximum}`}</td><td>${escapeHtml(drop.condition ? l(drop.condition) : t("emptyValue"))}</td></tr>`;
   }).join("")}</tbody></table></div>`;
+}
+
+function visualEntryLink(entry, className = "visual-entry-link", size = "xs") {
+  return `<a class="${className}" href="${entryHref(entry)}">${sprite(entry, size, entry.isBoss)}<span>${escapeHtml(l(entry.name))}</span></a>`;
+}
+
+function externalWikiEntry({ label, pageTitle, imageTitle = pageTitle, provider = "terraria" }, className = "") {
+  const wiki = EXTERNAL_WIKIS[provider];
+  if (!wiki) return escapeHtml(label);
+  const articleUrl = `${wiki.articleBase}${encodeURIComponent(pageTitle.replaceAll(" ", "_"))}`;
+  return `<a class="external-entry external-wiki-entry ${className}" href="${articleUrl}" target="_blank" rel="noreferrer noopener"><span class="external-wiki-thumb" data-wiki-provider="${escapeHtml(provider)}" data-wiki-title="${escapeHtml(imageTitle)}" aria-hidden="true"><span>${escapeHtml(wiki.badge)}</span></span><span class="external-wiki-label">${escapeHtml(label)}</span><sup aria-hidden="true">↗</sup></a>`;
 }
 
 function renderBossBody(entry, editorial) {
@@ -820,11 +875,113 @@ function hydrateSprites() {
   });
 }
 
+function normalizeWikiFileTitle(value) {
+  return String(value || "").replaceAll("_", " ").trim();
+}
+
+function resolveWikiAlias(title, aliases) {
+  let resolved = normalizeWikiFileTitle(title);
+  const visited = new Set();
+  while (aliases.has(resolved) && !visited.has(resolved)) {
+    visited.add(resolved);
+    resolved = aliases.get(resolved);
+  }
+  return resolved;
+}
+
+function applyExternalWikiThumbnail(node, source) {
+  if (!node.isConnected) return;
+  if (!source) {
+    node.classList.add("is-missing");
+    return;
+  }
+  const image = document.createElement("img");
+  image.alt = "";
+  image.loading = "lazy";
+  image.decoding = "async";
+  image.referrerPolicy = "no-referrer";
+  image.addEventListener("load", () => node.classList.add("is-loaded"), { once: true });
+  image.addEventListener("error", () => {
+    image.remove();
+    node.classList.add("is-missing");
+  }, { once: true });
+  image.src = source;
+  node.append(image);
+}
+
+async function fetchExternalWikiThumbnails(provider, titles) {
+  const wiki = EXTERNAL_WIKIS[provider];
+  if (!wiki || !titles.length) return;
+  for (let index = 0; index < titles.length; index += 40) {
+    const batch = titles.slice(index, index + 40);
+    const requestedFiles = batch.map((title) => `File:${title}.png`);
+    const params = new URLSearchParams({
+      action: "query",
+      format: "json",
+      formatversion: "2",
+      origin: "*",
+      redirects: "1",
+      prop: "imageinfo",
+      iiprop: "url",
+      iiurlwidth: "64",
+      titles: requestedFiles.join("|")
+    });
+    try {
+      const response = await fetch(`${wiki.apiUrl}?${params}`, {
+        credentials: "omit",
+        mode: "cors"
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      const aliases = new Map();
+      for (const item of data.query?.normalized || []) {
+        aliases.set(normalizeWikiFileTitle(item.from), normalizeWikiFileTitle(item.to));
+      }
+      for (const item of data.query?.redirects || []) {
+        aliases.set(normalizeWikiFileTitle(item.from), normalizeWikiFileTitle(item.to));
+      }
+      const pages = new Map((data.query?.pages || []).map((page) => [
+        normalizeWikiFileTitle(page.title),
+        page.missing ? null : page.imageinfo?.[0]?.thumburl || page.imageinfo?.[0]?.url || null
+      ]));
+      batch.forEach((title) => {
+        const requestedFile = `File:${title}.png`;
+        const resolvedFile = resolveWikiAlias(requestedFile, aliases);
+        externalWikiThumbnailCache.set(`${provider}:${title}`, pages.get(resolvedFile) || null);
+      });
+    } catch (error) {
+      console.warn(`Unable to load ${provider} wiki thumbnails`, error);
+    }
+  }
+}
+
+async function hydrateExternalWikiThumbnails() {
+  const nodes = [...document.querySelectorAll(".external-wiki-thumb[data-wiki-provider][data-wiki-title]")];
+  const pendingByProvider = new Map();
+  nodes.forEach((node) => {
+    const provider = node.dataset.wikiProvider;
+    const title = node.dataset.wikiTitle;
+    const key = `${provider}:${title}`;
+    if (externalWikiThumbnailCache.has(key)) {
+      applyExternalWikiThumbnail(node, externalWikiThumbnailCache.get(key));
+      return;
+    }
+    if (!pendingByProvider.has(provider)) pendingByProvider.set(provider, new Set());
+    pendingByProvider.get(provider).add(title);
+  });
+  await Promise.all([...pendingByProvider].map(([provider, titles]) => fetchExternalWikiThumbnails(provider, [...titles])));
+  nodes.forEach((node) => {
+    if (node.querySelector("img") || node.classList.contains("is-missing")) return;
+    applyExternalWikiThumbnail(node, externalWikiThumbnailCache.get(`${node.dataset.wikiProvider}:${node.dataset.wikiTitle}`) || null);
+  });
+}
+
 function render({ preserveScroll = false } = {}) {
   const scrollY = window.scrollY;
   app.innerHTML = routeView();
   updateDocumentTitle();
   hydrateSprites();
+  void hydrateExternalWikiThumbnails();
   if (state.searchOpen) {
     requestAnimationFrame(() => {
       const input = document.querySelector("#global-search-input");

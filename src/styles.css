@@ -4460,3 +4460,241 @@ kbd {
     border-width: 2px;
   }
 }
+
+/* Image-rich encyclopedia rows ------------------------------------------- */
+
+.entry-image-column,
+.entry-image-cell {
+  width: 64px;
+  min-width: 64px;
+  text-align: center !important;
+}
+
+.entry-image-cell {
+  padding: 4px 7px !important;
+}
+
+.entry-image-cell > a,
+.recipe-output,
+.recipe-entry-link,
+.drop-entry-link {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+}
+
+.entry-image-cell .sprite-box,
+.recipe-output .sprite-box,
+.recipe-entry-link .sprite-box,
+.drop-entry-link .sprite-box {
+  background: radial-gradient(circle, var(--accent-soft), transparent 72%), #0d1113;
+  border: 1px solid var(--line);
+  box-sizing: border-box;
+}
+
+:root[data-theme="light"] .entry-image-cell .sprite-box,
+:root[data-theme="light"] .recipe-output .sprite-box,
+:root[data-theme="light"] .recipe-entry-link .sprite-box,
+:root[data-theme="light"] .drop-entry-link .sprite-box {
+  background: radial-gradient(circle, var(--accent-soft), transparent 72%), var(--panel-solid);
+}
+
+.table-entry-name {
+  min-width: 170px;
+}
+
+.category-results-materials .entry-image-cell .sprite-sm,
+.category-results-items .entry-image-cell .sprite-sm {
+  width: 52px;
+  height: 52px;
+}
+
+.category-results-enemies .entry-card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 6px;
+}
+
+.category-results-enemies .entry-card {
+  min-height: 112px;
+  grid-template-columns: 88px 1fr;
+}
+
+.category-results-enemies .entry-card-visual {
+  min-height: 112px;
+}
+
+.category-results-enemies .entry-card-visual .sprite-lg {
+  width: 68px;
+  height: 68px;
+}
+
+.category-results-enemies .entry-card-body {
+  padding: 10px 12px;
+}
+
+.category-results-enemies .entry-card h2 {
+  margin-top: 6px;
+}
+
+.category-results-enemies .entry-card p {
+  margin: 5px 0 7px;
+  -webkit-line-clamp: 2;
+}
+
+.recipe-card > header {
+  min-height: 48px;
+  padding: 5px 9px;
+}
+
+.recipe-output {
+  color: var(--text-soft);
+}
+
+.recipe-output > span:last-child,
+.recipe-entry-link > span:last-child,
+.drop-entry-link > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recipe-output .sprite-xs,
+.recipe-entry-link .sprite-xs,
+.drop-entry-link .sprite-xs {
+  width: 36px;
+  height: 36px;
+}
+
+.recipe-entry-link,
+.drop-entry-link {
+  color: var(--accent);
+  text-decoration: none !important;
+}
+
+.recipe-entry-link:hover,
+.drop-entry-link:hover {
+  color: var(--accent-strong);
+}
+
+.external-wiki-entry {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  text-decoration: none !important;
+}
+
+.external-wiki-thumb {
+  display: inline-grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: radial-gradient(circle, var(--accent-soft), transparent 72%), #0d1113;
+  box-sizing: border-box;
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+:root[data-theme="light"] .external-wiki-thumb {
+  background: radial-gradient(circle, var(--accent-soft), transparent 72%), var(--panel-solid);
+}
+
+.external-wiki-thumb > span,
+.external-wiki-thumb > img {
+  grid-area: 1 / 1;
+}
+
+.external-wiki-thumb > img {
+  max-width: 32px;
+  max-height: 32px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  opacity: 0;
+}
+
+.external-wiki-thumb.is-loaded > img {
+  opacity: 1;
+}
+
+.external-wiki-thumb.is-loaded > span {
+  opacity: 0;
+}
+
+.external-wiki-thumb.is-missing {
+  border-style: dashed;
+  opacity: 0.68;
+}
+
+.external-wiki-entry:hover .external-wiki-thumb {
+  border-color: var(--accent);
+}
+
+.external-wiki-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.external-wiki-entry sup {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.recipe-card th,
+.recipe-card td,
+.drop-table th,
+.drop-table td {
+  padding: 5px 8px;
+}
+
+.recipe-card th:last-child,
+.recipe-card td:last-child {
+  width: 64px;
+  text-align: center;
+}
+
+.drop-table td:first-child {
+  min-width: 190px;
+}
+
+.drop-table td:not(:first-child) {
+  white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+  .category-results-enemies .entry-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .entry-table th:nth-child(2),
+  .entry-table td:nth-child(2) {
+    display: table-cell;
+  }
+
+  .entry-table th:nth-child(3),
+  .entry-table td:nth-child(3),
+  .entry-table th:nth-child(4),
+  .entry-table td:nth-child(4),
+  .entry-table th:nth-child(5),
+  .entry-table td:nth-child(5) {
+    display: none;
+  }
+
+  .entry-image-column,
+  .entry-image-cell {
+    width: 58px;
+    min-width: 58px;
+  }
+
+  .drop-table {
+    min-width: 560px;
+  }
+}
