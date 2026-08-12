@@ -279,8 +279,8 @@ export const guideCatalog = [
       {
         heading: { zh: "安装与兼容", en: "Installation and compatibility" },
         paragraphs: {
-          zh: ["本资料快照面向 Terraria / tModLoader 1.4.4.9。将模组安装并启用后，新内容会嵌入原版世界进度；Boss Checklist 为可选兼容，不是硬依赖。", "模组仍处于 0.1 持续开发阶段。若条目数值与旧截图冲突，以当前游戏与本 Wiki 的源码快照为准。"],
-          en: ["This snapshot targets Terraria / tModLoader 1.4.4.9. Once enabled, its content joins vanilla progression; Boss Checklist support is optional rather than a hard dependency.", "The mod is in active 0.1 development. If older screenshots disagree with an entry, prefer the current game and this source-derived snapshot."]
+          zh: ["本资料快照面向 Terraria / tModLoader 1.4.4.9。将模组安装并启用后，新内容会嵌入原版世界进度；Boss Checklist 为可选兼容，不是硬依赖。", "模组仍处于持续开发阶段。若条目数值与旧截图冲突，以当前游戏与本 Wiki 的源码快照为准。"],
+          en: ["This snapshot targets Terraria / tModLoader 1.4.4.9. Once enabled, its content joins vanilla progression; Boss Checklist support is optional rather than a hard dependency.", "The mod remains in active development. If older screenshots disagree with an entry, prefer the current game and this source-derived snapshot."]
         }
       },
       {

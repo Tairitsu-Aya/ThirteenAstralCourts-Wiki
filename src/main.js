@@ -441,7 +441,7 @@ function renderHome() {
       <article class="feature-panel data-panel">
         <span class="eyebrow">${escapeHtml(state.lang === "zh" ? "可核验资料" : "VERIFIABLE DATA")}</span>
         <h2>${escapeHtml(state.lang === "zh" ? "数据来源与版本" : "Data source and version")}</h2>
-        <p>${escapeHtml(state.lang === "zh" ? "名称、Tooltip、基础数值、配方、掉落关系与贴图由 v0.1 源码自动同步；页面同时标记内部名与源码位置。" : "Names, tooltips, base stats, recipes, drop relations, and sprites are synchronized from the v0.1 source, with internal names and source paths preserved.")}</p>
+        <p>${escapeHtml(state.lang === "zh" ? `名称、Tooltip、基础数值、配方、掉落关系与贴图由 v${wikiData.meta.version} 源码自动同步；页面同时标记内部名与源码位置。` : `Names, tooltips, base stats, recipes, drop relations, and sprites are synchronized from the v${wikiData.meta.version} source, with internal names and source paths preserved.`)}</p>
         <dl class="coverage-list">
           <div><dt>${escapeHtml(state.lang === "zh" ? "贴图覆盖" : "Sprite coverage")}</dt><dd>${wikiData.coverage.images}/${wikiData.coverage.totalEntries}</dd></div>
           <div><dt>${escapeHtml(state.lang === "zh" ? "技术图鉴" : "Technical records")}</dt><dd>${wikiData.coverage.internalEntries}</dd></div>
@@ -528,6 +528,9 @@ function entryTable(list) {
 }
 
 function compactStats(entry) {
+  if (entry.internalName === "SuihuaManifoldArray") {
+    return escapeHtml(state.lang === "zh" ? "消耗魔力 × 1.3 伤害 · 消耗全部当前魔力" : "Mana spent × 1.3 damage · consumes all current mana");
+  }
   const stats = [];
   if (entry.stats.damage != null) stats.push(`${entry.stats.damage} ${t("damage")}`);
   if (entry.stats.defense != null) stats.push(`${entry.stats.defense} ${t("defense")}`);
@@ -721,11 +724,19 @@ function statRowsForEntry(entry) {
   const s = entry.stats || {};
   const rows = [];
   if (s.lifeMax != null) rows.push([t("health"), s.lifeMax]);
-  if (s.damage != null) rows.push([entry.kind === "npc" ? (state.lang === "zh" ? "接触伤害" : "Contact damage") : t("damage"), s.damage]);
+  if (entry.internalName === "SuihuaManifoldArray") {
+    rows.push([t("damage"), state.lang === "zh" ? "消耗魔力 × 1.3" : "Mana spent × 1.3"]);
+  } else if (s.damage != null) {
+    rows.push([entry.kind === "npc" ? (state.lang === "zh" ? "接触伤害" : "Contact damage") : t("damage"), s.damage]);
+  }
   if (s.DamageType != null) rows.push([state.lang === "zh" ? "伤害类型" : "Damage class", labelForClass(s.DamageType)]);
   if (s.defense != null) rows.push([t("defense"), s.defense]);
   if (s.useTime != null) rows.push([t("useTime"), `${s.useTime} ${state.lang === "zh" ? "帧" : "ticks"}`]);
-  if (s.mana != null) rows.push([t("mana"), s.mana]);
+  if (entry.internalName === "SuihuaManifoldArray") {
+    rows.push([t("mana"), state.lang === "zh" ? "全部当前魔力" : "All current mana"]);
+  } else if (s.mana != null) {
+    rows.push([t("mana"), s.mana]);
+  }
   if (s.knockBack != null) rows.push([t("knockback"), s.knockBack]);
   if (s.rare != null) rows.push([t("rarity"), humanize(s.rare)]);
   if (s.value != null) rows.push([t("value"), s.value]);

@@ -19,7 +19,9 @@ const requiredFiles = [
   "build.txt",
   "description.txt",
   path.join("Localization", "zh-Hans_Mods.ThirteenAstralCourts.hjson"),
-  path.join("Localization", "en-US_Mods.ThirteenAstralCourts.hjson")
+  path.join("Localization", "en-US_Mods.ThirteenAstralCourts.hjson"),
+  path.join("Localization", "zh-Hans_Mods.ThirteenAstralCourts.Configs.hjson"),
+  path.join("Localization", "en-US_Mods.ThirteenAstralCourts.Configs.hjson")
 ];
 
 for (const relativePath of requiredFiles) {
@@ -27,6 +29,12 @@ for (const relativePath of requiredFiles) {
     throw new Error(`模组源码目录无效，缺少 ${relativePath}: ${modRoot}`);
   }
 }
+
+const readText = (relativePath) => fs.readFileSync(path.join(modRoot, relativePath), "utf8");
+const zh = Hjson.parse(readText(path.join("Localization", "zh-Hans_Mods.ThirteenAstralCourts.hjson")));
+const en = Hjson.parse(readText(path.join("Localization", "en-US_Mods.ThirteenAstralCourts.hjson")));
+const zhConfigs = Hjson.parse(readText(path.join("Localization", "zh-Hans_Mods.ThirteenAstralCourts.Configs.hjson")));
+const enConfigs = Hjson.parse(readText(path.join("Localization", "en-US_Mods.ThirteenAstralCourts.Configs.hjson")));
 
 for (const target of [dataDir, contentAssetDir, brandDir]) {
   fs.mkdirSync(target, { recursive: true });
@@ -38,12 +46,6 @@ if (!resolvedContentAssetDir.startsWith(path.resolve(siteRoot) + path.sep)) {
 }
 fs.rmSync(resolvedContentAssetDir, { recursive: true, force: true });
 fs.mkdirSync(resolvedContentAssetDir, { recursive: true });
-
-const readText = (relativePath) => fs.readFileSync(path.join(modRoot, relativePath), "utf8");
-const zh = Hjson.parse(readText(path.join("Localization", "zh-Hans_Mods.ThirteenAstralCourts.hjson")));
-const en = Hjson.parse(readText(path.join("Localization", "en-US_Mods.ThirteenAstralCourts.hjson")));
-const zhConfigs = Hjson.parse(readText(path.join("Localization", "zh-Hans_Mods.ThirteenAstralCourts.Configs.hjson")));
-const enConfigs = Hjson.parse(readText(path.join("Localization", "en-US_Mods.ThirteenAstralCourts.Configs.hjson")));
 
 const buildMeta = Object.fromEntries(
   readText("build.txt")
@@ -143,8 +145,12 @@ const BOSS_STAGE_META = {
 };
 
 const KNOWN_ITEM_STAGES = {
+  NestweaverCharm: ["pre-boss", "Boss 前", "Pre-Boss", 0.8],
   StarveilRecurve: ["post-eye", "克苏鲁之眼后", "Post-Eye of Cthulhu", 1.5],
   GloameyeLantern: ["post-eye", "克苏鲁之眼后", "Post-Eye of Cthulhu", 1.5],
+  RiftgazePrism: ["post-eye", "克苏鲁之眼后", "Post-Eye of Cthulhu", 1.5],
+  ChoirWarbell: ["post-eye", "克苏鲁之眼后", "Post-Eye of Cthulhu", 1.5],
+  StarwovenSiphon: ["world-evil", "世界邪恶 Boss 前后", "Around the world-evil boss", 2.6],
   YoungstarFormationStaff: ["post-world-evil", "世界邪恶 Boss 后", "Post world-evil boss", 2.7],
   RimeboundReturnhook: ["early-hardmode", "困难模式初期", "Early Hardmode", 8.1],
   MiragetailNeedlebow: ["early-hardmode", "困难模式初期", "Early Hardmode", 8.1],
@@ -154,7 +160,8 @@ const KNOWN_ITEM_STAGES = {
   MoonfallCrossbow: ["post-moon-lord", "月亮领主后", "Post-Moon Lord", 18.05],
   StarcrownSporeboundInstrument: ["post-moon-lord", "月亮领主后", "Post-Moon Lord", 18.05],
   WallknellEchoHalberd: ["post-boundary", "击破世界界壁后", "After the World Boundary", 18.2],
-  SeamwingRayInstrument: ["post-boundary", "击破世界界壁后", "After the World Boundary", 18.2]
+  SeamwingRayInstrument: ["post-boundary", "击破世界界壁后", "After the World Boundary", 18.2],
+  SuihuaManifoldArray: ["post-first-court", "击败昭回后", "After Zhaohui", 19.7]
 };
 
 function walk(root, predicate = () => true) {
@@ -292,6 +299,13 @@ function localizedValue(root, group, name, field) {
     ?? "";
 }
 
+function resolveKnownLocalization(value, language) {
+  return String(value ?? "").replaceAll(
+    "{$CommonItemTooltip.RightClickToOpen}",
+    language === "zh" ? "右键打开" : "Right click to open"
+  );
+}
+
 function localizedBestiary(root, name) {
   return deepLookup(root, `Bestiary.${name}`) ?? "";
 }
@@ -372,6 +386,20 @@ function selectStats(kind, body) {
         ...collectAssignments(authoredDefaults, entityName, constants)
       }
     : {};
+  if (kind === "item") {
+    const earlyClassAccessory = body.match(
+      /EarlyClassAccessoryDefaults\.Set\s*\(\s*this\s*,\s*(Item\.(?:buyPrice|sellPrice)\([^)]*\))\s*,\s*(ItemRarityID\.\w+)\s*\)/
+    );
+    if (earlyClassAccessory) {
+      Object.assign(source, {
+        width: 40,
+        height: 40,
+        accessory: true,
+        value: cleanExpression(earlyClassAccessory[1], constants),
+        rare: cleanExpression(earlyClassAccessory[2], constants)
+      });
+    }
+  }
   const allowed = {
     item: ["damage", "DamageType", "knockBack", "crit", "useTime", "useAnimation", "mana", "defense", "shootSpeed", "useAmmo", "pick", "axe", "hammer", "maxStack", "consumable", "accessory", "rare", "value", "width", "height"],
     npc: ["lifeMax", "damage", "defense", "knockBackResist", "value", "boss", "npcSlots", "width", "height", "aiStyle"],
@@ -616,14 +644,14 @@ for (const [name, parts] of typeMap) {
   const enName = localizedValue(configRoot.en, group, name, "DisplayName")
     || localizedValue(configRoot.en, group, name, "Label")
     || humanizePascal(name);
-  const zhTooltip = localizedValue(configRoot.zh, group, name, "Tooltip")
+  const zhTooltip = resolveKnownLocalization(localizedValue(configRoot.zh, group, name, "Tooltip")
     || localizedValue(configRoot.zh, group, name, "Description")
     || localizedValue(configRoot.zh, group, name, "Tooltip0")
-    || "";
-  const enTooltip = localizedValue(configRoot.en, group, name, "Tooltip")
+    || "", "zh");
+  const enTooltip = resolveKnownLocalization(localizedValue(configRoot.en, group, name, "Tooltip")
     || localizedValue(configRoot.en, group, name, "Description")
     || localizedValue(configRoot.en, group, name, "Tooltip0")
-    || "";
+    || "", "en");
   const texture = chooseTexture(name, parts, kind);
   const portrait = isBoss ? choosePortrait(name, texture) : texture;
   const image = copyPublicTexture(texture, kind, name);
@@ -641,6 +669,12 @@ for (const [name, parts] of typeMap) {
   if (kind === "item" && name === "VitalArmorResonanceCore") {
     const helper = methodBody(body, "RegisterRecipe");
     for (const bar of ["CobaltBar", "PalladiumBar"]) {
+      recipes.push(...parseRecipes(helper.replaceAll("barType", `ItemID.${bar}`)));
+    }
+  }
+  if (kind === "item" && name === "NestweaverCharm") {
+    const helper = methodBody(body, "RegisterRecipe");
+    for (const bar of ["GoldBar", "PlatinumBar"]) {
       recipes.push(...parseRecipes(helper.replaceAll("barType", `ItemID.${bar}`)));
     }
   }

@@ -31,32 +31,32 @@ for (const entry of data.entries || []) {
 }
 
 const expectations = {
-  totalEntries: 385,
-  publicEntries: 219,
+  totalEntries: 403,
+  publicEntries: 228,
   bosses: 7,
   enemies: 35,
-  items: 161,
-  buffs: 11,
+  items: 169,
+  buffs: 12,
   tiles: 3,
-  projectiles: 161,
-  recipes: 109
+  projectiles: 170,
+  recipes: 115
 };
 for (const [key, expected] of Object.entries(expectations)) {
   if (data.coverage?.[key] !== expected) failures.push(`覆盖异常：${key} 应为 ${expected}，实为 ${data.coverage?.[key]}`);
 }
 
 const expectedItemCategories = {
-  Weapons: 38,
+  Weapons: 39,
   "Weapons/Melee": 9,
   "Weapons/Ranged": 10,
-  "Weapons/Magic": 10,
+  "Weapons/Magic": 11,
   "Weapons/Summon": 9,
   Armor: 31,
-  Accessories: 30,
-  Materials: 15,
+  Accessories: 35,
+  Materials: 16,
   Placeable: 26,
   BossSummons: 7,
-  BossBags: 6,
+  BossBags: 7,
   Consumables: 6,
   Tools: 2
 };
@@ -100,6 +100,34 @@ if (byName.get("WorldfoldGuillotine")?.dropSources?.length !== 2) {
 }
 if (!byName.get("RimeboundReturnhook")?.dropSources?.some((drop) => drop.source === "FrosttrailLynx")) {
   failures.push("全局敌怪掉落表未收录霜返钩刃。");
+}
+if (data.meta?.version !== "0.2.1") {
+  failures.push(`Wiki 源码快照版本应为 0.2.1，实为 ${data.meta?.version || "空"}。`);
+}
+if (byName.get("NestweaverCharm")?.recipes?.length !== 2) {
+  failures.push("织巢护符的金锭/铂金锭两条配方未完整展开。");
+}
+if (!byName.get("ThirdCourtLordLiuyaoBoss")?.drops?.some((drop) => drop.item === "ThirdCourtLordTreasureBag")) {
+  failures.push("流曜 Boss 掉落表未收录专家宝藏袋。");
+}
+for (const name of ["NestweaverCharm", "RiftgazePrism", "ChoirWarbell", "StarwovenSiphon", "SuihuaManifoldArray"]) {
+  if (!byName.get(name)?.stage) failures.push(`0.2.1 新增流程物品缺少阶段: ${name}`);
+}
+if (byName.get("ThirdCourtLordTreasureBag")?.tooltip?.zh !== "右键打开") {
+  failures.push("宝藏袋的公共本地化占位符未解析。");
+}
+for (const name of [
+  "RiftgazePrism",
+  "ChoirWarbell",
+  "StarwovenSiphon",
+  "NestweaverCharm",
+  "HX301ManaOverdrive",
+  "SuihuaManifoldArray",
+  "SuihuaStarCore",
+  "ThirdCourtLordTreasureBag",
+  "RedErosionDebuff"
+]) {
+  if (!byName.get(name)?.image) failures.push(`0.2.1 新增公开条目缺少贴图: ${name}`);
 }
 
 if (failures.length) {

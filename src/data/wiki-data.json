@@ -1,32 +1,32 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-11T11:10:00.366Z",
+  "generatedAt": "2026-08-12T18:11:00.452Z",
   "meta": {
     "modName": "ThirteenAstralCourts",
     "displayName": "天星十三宫",
     "author": "M.Aya",
-    "version": "0.1",
+    "version": "0.2.1",
     "terrariaVersion": "1.4.4.9",
     "description": "《天星十三宫》是一款以星宫、世界界壁与天外来客为主题的内容扩展模组。当前版本将一条新的星宫主线嵌入原版流程，从克苏鲁之眼后延伸至月亮领主之后，包含 7 场 Boss 战、15 种敌怪、38 把覆盖四职业的武器、31 件护甲与 30 件饰品。Boss 战强调位置管理、预警阅读、弹幕编排与独立阶段机制；世界内容包含世纪之花后的残星矿物、随进度进入原版生态的新敌怪，以及击破界壁后开启的高空界外遭遇。当前为 0.1 持续开发版本，Boss Checklist 为可选兼容。"
   },
   "coverage": {
-    "totalEntries": 385,
-    "publicEntries": 219,
-    "internalEntries": 166,
-    "images": 353,
-    "localizedZh": 179,
-    "localizedEn": 38,
-    "recipes": 109,
+    "totalEntries": 403,
+    "publicEntries": 228,
+    "internalEntries": 175,
+    "images": 364,
+    "localizedZh": 188,
+    "localizedEn": 41,
+    "recipes": 115,
     "bosses": 7,
     "enemies": 35,
-    "items": 161,
-    "buffs": 11,
+    "items": 169,
+    "buffs": 12,
     "tiles": 3,
-    "projectiles": 161,
+    "projectiles": 170,
     "itemCategories": {
-      "Weapons": 38,
-      "Weapons/Magic": 10,
-      "Materials": 15,
+      "Weapons": 39,
+      "Weapons/Magic": 11,
+      "Materials": 16,
       "Armor": 31,
       "Weapons/Ranged": 10,
       "Weapons/Summon": 9,
@@ -34,9 +34,9 @@
       "Weapons/Melee": 9,
       "Consumables": 6,
       "Placeable": 26,
-      "Accessories": 30,
+      "Accessories": 35,
       "BossSummons": 7,
-      "BossBags": 6
+      "BossBags": 7
     }
   },
   "progression": [
@@ -474,7 +474,10 @@
         "damage": 0,
         "defense": 70,
         "knockBackResist": 0,
-        "value": 0,
+        "value": {
+          "type": "coin",
+          "platinum": 2
+        },
         "boss": true,
         "npcSlots": 30,
         "width": 230,
@@ -527,6 +530,22 @@
       "isBoss": true,
       "isInternal": false,
       "sourcePath": "Content/NPCs/Bosses/ThirdCourtLordLiuyao/ThirdCourtLordLiuyaoBoss.Arena.cs",
+      "drops": [
+        {
+          "item": "SuihuaStarCore",
+          "vanilla": false,
+          "chanceDenominator": 1,
+          "minimum": 20,
+          "maximum": 24
+        },
+        {
+          "item": "ThirdCourtLordTreasureBag",
+          "vanilla": false,
+          "chanceDenominator": null,
+          "minimum": 1,
+          "maximum": 1
+        }
+      ],
       "progressionWeight": 19.7,
       "summonItem": "SuihuaPageSigil"
     },
@@ -779,6 +798,13 @@
       "isInternal": false,
       "sourcePath": "Content/NPCs/Bosses/AstralCruiserHX301/AstralCruiserHX301Boss.cs",
       "drops": [
+        {
+          "item": "HX301ManaOverdrive",
+          "vanilla": false,
+          "chanceDenominator": null,
+          "minimum": 1,
+          "maximum": 1
+        },
         {
           "item": "ResidualStarBar",
           "vanilla": false,
@@ -4813,7 +4839,7 @@
       "portraitImage": "./assets/content/item/SeamwingRayInstrument.png",
       "frames": 1,
       "stats": {
-        "damage": 180,
+        "damage": 216,
         "DamageType": "Summon",
         "knockBack": 4,
         "useTime": 30,
@@ -5635,8 +5661,8 @@
         "en": "World Boundary Treasure Bag"
       },
       "tooltip": {
-        "zh": "{$CommonItemTooltip.RightClickToOpen}",
-        "en": "{$CommonItemTooltip.RightClickToOpen}"
+        "zh": "右键打开",
+        "en": "Right click to open"
       },
       "description": {
         "zh": "",
@@ -6732,7 +6758,7 @@
       "portraitImage": "./assets/content/item/WallknellEchoHalberd.png",
       "frames": 1,
       "stats": {
-        "damage": 320,
+        "damage": 384,
         "DamageType": "Melee",
         "knockBack": 7,
         "useTime": 16,
@@ -6823,6 +6849,79 @@
       "isBoss": false,
       "isInternal": false,
       "sourcePath": "Content/Items/Placeable/Banners/PrismcapBeetleBanner.cs"
+    },
+    {
+      "id": "item/RiftgazePrism",
+      "internalName": "RiftgazePrism",
+      "kind": "item",
+      "category": "Accessories",
+      "subcategory": "",
+      "name": {
+        "zh": "裂瞳星棱",
+        "en": "Riftgaze Prism"
+      },
+      "tooltip": {
+        "zh": "魔法伤害提高 7%\n魔力消耗降低 6%",
+        "en": "7% increased magic damage\n6% reduced mana cost"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/RiftgazePrism.png",
+      "portraitImage": "./assets/content/item/RiftgazePrism.png",
+      "frames": 1,
+      "stats": {
+        "accessory": true,
+        "rare": "Blue",
+        "value": {
+          "type": "coin",
+          "gold": 1
+        },
+        "width": 40,
+        "height": 40
+      },
+      "difficulty": {},
+      "recipes": [
+        {
+          "resultCount": 1,
+          "ingredients": [
+            {
+              "id": "GlimmeringStarMatter",
+              "count": 8,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "Lens",
+              "count": 2,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "FallenStar",
+              "count": 5,
+              "vanilla": true,
+              "group": false
+            }
+          ],
+          "station": "Anvils",
+          "conditions": []
+        }
+      ],
+      "stage": {
+        "key": "post-eye",
+        "zh": "克苏鲁之眼后",
+        "en": "Post-Eye of Cthulhu",
+        "order": 1.5
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Accessories/EarlyClassAccessories.cs"
     },
     {
       "id": "item/SpiritTideCrystal",
@@ -7160,7 +7259,7 @@
       "portraitImage": "./assets/content/item/CountervoyageStarAnchor.png",
       "frames": 1,
       "stats": {
-        "damage": 125,
+        "damage": 150,
         "DamageType": "Melee",
         "knockBack": 6,
         "useTime": 22,
@@ -7975,6 +8074,79 @@
       "sourcePath": "Content/Items/Accessories/WorldBoundaryAccessories.cs"
     },
     {
+      "id": "item/ChoirWarbell",
+      "internalName": "ChoirWarbell",
+      "kind": "item",
+      "category": "Accessories",
+      "subcategory": "",
+      "name": {
+        "zh": "群灵战铃",
+        "en": "Choir Warbell"
+      },
+      "tooltip": {
+        "zh": "召唤伤害提高 10%\n召唤攻击速度提高 4%",
+        "en": "10% increased summon damage\n4% increased summon attack speed"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/ChoirWarbell.png",
+      "portraitImage": "./assets/content/item/ChoirWarbell.png",
+      "frames": 1,
+      "stats": {
+        "accessory": true,
+        "rare": "Blue",
+        "value": {
+          "type": "coin",
+          "gold": 1
+        },
+        "width": 40,
+        "height": 40
+      },
+      "difficulty": {},
+      "recipes": [
+        {
+          "resultCount": 1,
+          "ingredients": [
+            {
+              "id": "GlimmeringStarMatter",
+              "count": 8,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "Chain",
+              "count": 2,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "FallenStar",
+              "count": 3,
+              "vanilla": true,
+              "group": false
+            }
+          ],
+          "station": "Anvils",
+          "conditions": []
+        }
+      ],
+      "stage": {
+        "key": "post-eye",
+        "zh": "克苏鲁之眼后",
+        "en": "Post-Eye of Cthulhu",
+        "order": 1.5
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Accessories/EarlyClassAccessories.cs"
+    },
+    {
       "id": "item/TriuneCalibrationAstrolabe",
       "internalName": "TriuneCalibrationAstrolabe",
       "kind": "item",
@@ -8057,8 +8229,8 @@
         "en": "Triune Boundary Molt"
       },
       "tooltip": {
-        "zh": "每20秒依次进入界壳相、破界相与逐星相，完整循环为60秒\n界壳相：受到的伤害降低15%\n破界相：所有职业伤害提高20%\n逐星相：移动速度提高25%\n每种形态会在脚下产生不同的粒子效果\n循环计时不会因卸下并重新装备而重置",
-        "en": "Cycles through Bulwark, Ruin, and Stride every 20 seconds; a full cycle lasts 60 seconds\nBulwark: 15% reduced damage taken\nRuin: 20% increased damage for all classes\nStride: 25% increased movement speed\nEach phase creates a distinct particle effect beneath your feet\nUnequipping and re-equipping does not reset the cycle"
+        "zh": "每20秒依次进入界壳相、破界相与逐星相，完整循环为60秒\n界壳相：受到的伤害降低30%\n破界相：所有职业伤害提高40%\n逐星相：移动速度及水平、垂直加速度提高50%，翅膀水平速度与上升速度上限提高50%\n每种形态会在脚下产生不同的粒子效果\n循环计时不会因卸下并重新装备而重置",
+        "en": "Cycles through Bulwark, Ruin, and Stride every 20 seconds; a full cycle lasts 60 seconds\nBulwark: 30% reduced damage taken\nRuin: 40% increased damage for all classes\nStride: 50% increased movement speed and horizontal and vertical acceleration; wing horizontal speed and ascent speed limits are 50% higher\nEach phase creates a distinct particle effect beneath your feet\nUnequipping and re-equipping does not reset the cycle"
       },
       "description": {
         "zh": "",
@@ -8380,7 +8552,7 @@
       "portraitImage": "./assets/content/item/MiragetailNeedlebow.png",
       "frames": 1,
       "stats": {
-        "damage": 48,
+        "damage": 58,
         "knockBack": 3,
         "rare": "LightRed",
         "value": {
@@ -8896,8 +9068,8 @@
         "en": "Watcher Treasure Bag"
       },
       "tooltip": {
-        "zh": "{$CommonItemTooltip.RightClickToOpen}",
-        "en": "{$CommonItemTooltip.RightClickToOpen}"
+        "zh": "右键打开",
+        "en": "Right click to open"
       },
       "description": {
         "zh": "",
@@ -9192,7 +9364,7 @@
       "portraitImage": "./assets/content/item/RimeboundReturnhook.png",
       "frames": 1,
       "stats": {
-        "damage": 60,
+        "damage": 72,
         "DamageType": "Melee",
         "knockBack": 5.5,
         "useTime": 22,
@@ -9454,6 +9626,163 @@
           "chanceDenominator": 4,
           "minimum": 1,
           "maximum": 1
+        }
+      ]
+    },
+    {
+      "id": "item/SuihuaManifoldArray",
+      "internalName": "SuihuaManifoldArray",
+      "kind": "item",
+      "category": "Weapons",
+      "subcategory": "Magic",
+      "name": {
+        "zh": "岁华万象枢仪",
+        "en": "Suihua Manifold Array"
+      },
+      "tooltip": {
+        "zh": "消耗当前全部魔力，在光标位置展开可与其他法阵并存的动态法阵\n基础弹幕伤害等于消耗魔力的 1.3 倍，法阵持续时间等于消耗魔力的 2 倍帧数\n法阵每 15 帧在 2000 像素内索敌，并随机发射一种穿墙追踪流光\n赤色流光施加 5 秒“赤蚀”，使敌人的防御降低 30%\n蓝色流光命中后黏附 3 秒，每 30 帧造成 12% 基础伤害\n黄色流光反向分裂为 4 束各造成 18% 基础伤害的返追流光\n绿色流光按吸血飞刀的方式将造成的伤害转化为回流治疗\n紫色流光无限贯穿敌人，并持续追索尚未被它命中的目标\n所有流光持续受到你的魔法伤害、魔力病与其他增伤效果影响",
+        "en": "Consumes all current mana to unfold a dynamic array at the cursor; multiple arrays can coexist\nBase bolt damage equals 1.3 times the mana consumed, and the array lasts twice that many ticks\nEvery 15 ticks, it finds a target within 2000 pixels and fires one random homing stream through tiles\nRed streams inflict Red Erosion for 5 seconds, reducing enemy defense by 30%\nBlue streams cling for 3 seconds and deal 12% base damage every 30 ticks\nYellow streams split backward into 4 returning streams that each deal 18% base damage\nGreen streams convert damage into returning healing in the manner of Vampire Knives\nPurple streams pierce enemies without limit and keep seeking targets they have not struck\nAll streams continuously inherit your magic damage, Mana Sickness, and other damage effects"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/SuihuaManifoldArray.png",
+      "portraitImage": "./assets/content/item/SuihuaManifoldArray.png",
+      "frames": 1,
+      "stats": {
+        "damage": 1,
+        "DamageType": "Magic",
+        "knockBack": 3,
+        "useTime": 30,
+        "useAnimation": 30,
+        "mana": 1,
+        "shootSpeed": 0,
+        "rare": "Purple",
+        "value": {
+          "type": "coin",
+          "gold": 25
+        },
+        "width": 64,
+        "height": 64
+      },
+      "difficulty": {},
+      "recipes": [
+        {
+          "resultCount": 1,
+          "ingredients": [
+            {
+              "id": "SuihuaStarCore",
+              "count": 16,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "AstralEphemeris",
+              "count": 1,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "SeamwingRayInstrument",
+              "count": 1,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "AxiomOfClosure",
+              "count": 1,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "ExtramuralEssence",
+              "count": 32,
+              "vanilla": false,
+              "group": false
+            }
+          ],
+          "station": "LunarCraftingStation",
+          "conditions": []
+        }
+      ],
+      "stage": {
+        "key": "post-first-court",
+        "zh": "击败昭回后",
+        "en": "After Zhaohui",
+        "order": 19.7
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Weapons/Magic/SuihuaManifoldArray.cs"
+    },
+    {
+      "id": "item/SuihuaStarCore",
+      "internalName": "SuihuaStarCore",
+      "kind": "item",
+      "category": "Materials",
+      "subcategory": "",
+      "name": {
+        "zh": "岁华星核",
+        "en": "Suihua Star Core"
+      },
+      "tooltip": {
+        "zh": "封存着岁华长卷所记纪元的星辰核心",
+        "en": "A stellar core preserving an age recorded within Suihua's chronicle"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/SuihuaStarCore.png",
+      "portraitImage": "./assets/content/item/SuihuaStarCore.png",
+      "frames": 1,
+      "stats": {
+        "maxStack": "Item.CommonMaxStack",
+        "rare": "Purple",
+        "value": {
+          "type": "coin",
+          "gold": 2
+        },
+        "width": 32,
+        "height": 32
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": {
+        "key": "post-first-court",
+        "zh": "击败昭回后",
+        "en": "After Zhaohui",
+        "order": 19.7,
+        "accent": "#ff8ca8",
+        "shortZh": "岁华与回溯",
+        "shortEn": "Ages and reversal"
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Materials/SuihuaStarCore.cs",
+      "dropSources": [
+        {
+          "source": "ThirdCourtLordTreasureBag",
+          "sourceKind": "item",
+          "chanceDenominator": 1,
+          "minimum": 24,
+          "maximum": 28
+        },
+        {
+          "source": "ThirdCourtLordLiuyaoBoss",
+          "sourceKind": "npc",
+          "chanceDenominator": 1,
+          "minimum": 20,
+          "maximum": 24
         }
       ]
     },
@@ -10077,6 +10406,71 @@
       "sourcePath": "Content/Items/Consumables/PermanentLifeUpgrades.cs"
     },
     {
+      "id": "item/ThirdCourtLordTreasureBag",
+      "internalName": "ThirdCourtLordTreasureBag",
+      "kind": "item",
+      "category": "BossBags",
+      "subcategory": "",
+      "name": {
+        "zh": "天星第三宫主·流曜宝藏袋",
+        "en": "Third Court Lord Liuyao Treasure Bag"
+      },
+      "tooltip": {
+        "zh": "右键打开",
+        "en": "Right click to open"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/ThirdCourtLordTreasureBag.png",
+      "portraitImage": "./assets/content/item/ThirdCourtLordTreasureBag.png",
+      "frames": 1,
+      "stats": {
+        "maxStack": "Item.CommonMaxStack",
+        "consumable": true,
+        "rare": "Expert",
+        "width": 32,
+        "height": 32
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": {
+        "key": "post-first-court",
+        "zh": "击败昭回后",
+        "en": "After Zhaohui",
+        "order": 19.7,
+        "accent": "#ff8ca8",
+        "shortZh": "岁华与回溯",
+        "shortEn": "Ages and reversal"
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/BossBags/ThirdCourtLordTreasureBag.cs",
+      "drops": [
+        {
+          "item": "SuihuaStarCore",
+          "vanilla": false,
+          "chanceDenominator": 1,
+          "minimum": 24,
+          "maximum": 28
+        }
+      ],
+      "dropSources": [
+        {
+          "source": "ThirdCourtLordLiuyaoBoss",
+          "sourceKind": "npc",
+          "chanceDenominator": null,
+          "minimum": 1,
+          "maximum": 1
+        }
+      ]
+    },
+    {
       "id": "item/FirstCourtLordTreasureBag",
       "internalName": "FirstCourtLordTreasureBag",
       "kind": "item",
@@ -10087,8 +10481,8 @@
         "en": "First Court Lord Zhaohui Treasure Bag"
       },
       "tooltip": {
-        "zh": "{$CommonItemTooltip.RightClickToOpen}",
-        "en": "{$CommonItemTooltip.RightClickToOpen}"
+        "zh": "右键打开",
+        "en": "Right click to open"
       },
       "description": {
         "zh": "",
@@ -10344,8 +10738,8 @@
         "en": "Astral Cruiser HX-301 Treasure Bag"
       },
       "tooltip": {
-        "zh": "{$CommonItemTooltip.RightClickToOpen}",
-        "en": "{$CommonItemTooltip.RightClickToOpen}"
+        "zh": "右键打开",
+        "en": "Right click to open"
       },
       "description": {
         "zh": "",
@@ -10380,6 +10774,13 @@
       "isInternal": false,
       "sourcePath": "Content/Items/BossBags/HX301TreasureBag.cs",
       "drops": [
+        {
+          "item": "HX301ManaOverdrive",
+          "vanilla": false,
+          "chanceDenominator": null,
+          "minimum": 1,
+          "maximum": 1
+        },
         {
           "item": "ResidualStarBar",
           "vanilla": false,
@@ -10646,8 +11047,8 @@
         "en": "Universal Membrane Matrix"
       },
       "tooltip": {
-        "zh": "最大生命值增加 160，每秒恢复 3 点生命\n治疗药水的生命恢复量提高 25%，药水耐受时间缩短 25%\n受击无敌时间增加 60 帧；免疫击退、燃烧和火焰物块\n获得可吸收 120 点伤害的屏障，连续 15 秒未受伤后完全恢复\n每 15 秒移除一个可移除的负面状态\n屏障破碎期间有 10% 几率闪避；生命不高于一半时受到的伤害降低 25%\n50 格内同队玩家获得 6 点防御；生命高于一半时替其承受 20% 伤害",
-        "en": "Increases maximum life by 160 and regenerates 3 life per second\nHealing potions restore 25% more life and Potion Sickness is 25% shorter\nIncreases post-hit invincibility by 60 frames; grants immunity to knockback, Burning, and fire blocks\nGrants a 120-damage barrier that fully restores after 15 seconds without damage\nRemoves one removable debuff every 15 seconds\nWhile the barrier is broken, grants a 10% dodge chance and 25% damage reduction at or below half life\nGrants nearby teammates 6 defense; while above half life, redirects 20% of their damage to you"
+        "zh": "最大生命值增加 160，每秒恢复 3 点生命\n生命高于一半时，所有职业伤害提高 15%\n治疗药水的生命恢复量提高 25%，药水耐受时间缩短 25%\n受击无敌时间增加 60 帧；免疫击退、燃烧和火焰物块\n获得可吸收 160 点伤害的屏障，连续 10 秒未受伤后完全恢复\n每 15 秒移除一个可移除的负面状态\n屏障破碎期间有 10% 几率闪避；生命不高于一半时受到的伤害降低 25%\n50 格内同队玩家获得 6 点防御；生命高于一半时替其承受 20% 伤害",
+        "en": "Increases maximum life by 160 and regenerates 3 life per second\n15% increased damage for all classes while above half life\nHealing potions restore 25% more life and Potion Sickness is 25% shorter\nIncreases post-hit invincibility by 60 frames; grants immunity to knockback, Burning, and fire blocks\nGrants a 160-damage barrier that fully restores after 10 seconds without damage\nRemoves one removable debuff every 15 seconds\nWhile the barrier is broken, grants a 10% dodge chance and 25% damage reduction at or below half life\nGrants nearby teammates 6 defense; while above half life, redirects 20% of their damage to you"
       },
       "description": {
         "zh": "",
@@ -11425,6 +11826,80 @@
       ]
     },
     {
+      "id": "item/StarwovenSiphon",
+      "internalName": "StarwovenSiphon",
+      "kind": "item",
+      "category": "Accessories",
+      "subcategory": "",
+      "name": {
+        "zh": "星茧虹吸囊",
+        "en": "Starwoven Siphon"
+      },
+      "tooltip": {
+        "zh": "魔法命中每 0.75 秒织出一次回流星丝\n星丝抵达时回复 1–2 点生命与 2–6 点魔力\n生命回复遵循原版生命吸取限制",
+        "en": "Magic hits weave returning siphon threads once every 0.75 seconds\nThreads restore 1–2 life and 2–6 mana when they reach you\nLife recovery obeys normal lifesteal limits"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/StarwovenSiphon.png",
+      "portraitImage": "./assets/content/item/StarwovenSiphon.png",
+      "frames": 1,
+      "stats": {
+        "accessory": true,
+        "rare": "Blue",
+        "value": {
+          "type": "coin",
+          "gold": 1,
+          "silver": 50
+        },
+        "width": 40,
+        "height": 40
+      },
+      "difficulty": {},
+      "recipes": [
+        {
+          "resultCount": 1,
+          "ingredients": [
+            {
+              "id": "StarwovenChitin",
+              "count": 10,
+              "vanilla": false,
+              "group": false
+            },
+            {
+              "id": "LifeCrystal",
+              "count": 1,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "ManaCrystal",
+              "count": 1,
+              "vanilla": true,
+              "group": false
+            }
+          ],
+          "station": "Anvils",
+          "conditions": []
+        }
+      ],
+      "stage": {
+        "key": "world-evil",
+        "zh": "世界邪恶 Boss 前后",
+        "en": "Around the world-evil boss",
+        "order": 2.6
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Accessories/EarlyClassAccessories.cs"
+    },
+    {
       "id": "item/ChrysalisStarlock",
       "internalName": "ChrysalisStarlock",
       "kind": "item",
@@ -11747,7 +12222,7 @@
       "portraitImage": "./assets/content/item/StarveilRecurve.png",
       "frames": 1,
       "stats": {
-        "damage": 15,
+        "damage": 18,
         "knockBack": 2.25,
         "rare": "Blue",
         "value": {
@@ -11801,8 +12276,8 @@
         "en": "Starfaring Larva Treasure Bag"
       },
       "tooltip": {
-        "zh": "{$CommonItemTooltip.RightClickToOpen}",
-        "en": "{$CommonItemTooltip.RightClickToOpen}"
+        "zh": "右键打开",
+        "en": "Right click to open"
       },
       "description": {
         "zh": "",
@@ -12610,7 +13085,7 @@
       "portraitImage": "./assets/content/item/PatrolSwarmBeacon.png",
       "frames": 1,
       "stats": {
-        "damage": 84,
+        "damage": 101,
         "DamageType": "Summon",
         "knockBack": 3,
         "useTime": 30,
@@ -12750,8 +13225,8 @@
         "en": "Otherworldly Lone Star Treasure Bag"
       },
       "tooltip": {
-        "zh": "{$CommonItemTooltip.RightClickToOpen}",
-        "en": "{$CommonItemTooltip.RightClickToOpen}"
+        "zh": "右键打开",
+        "en": "Right click to open"
       },
       "description": {
         "zh": "",
@@ -12914,7 +13389,7 @@
       "portraitImage": "./assets/content/item/YoungstarFormationStaff.png",
       "frames": 1,
       "stats": {
-        "damage": 20,
+        "damage": 24,
         "DamageType": "Summon",
         "knockBack": 2,
         "useTime": 36,
@@ -13024,8 +13499,8 @@
         "en": "Last-Life Ember"
       },
       "tooltip": {
-        "zh": "受到致命伤害时复苏至 25% 最大生命，并获得 2 秒无敌\n此效果有 120 秒冷却时间\n不参与任何向上合成",
-        "en": "Fatal damage revives you at 25% maximum life and grants 2 seconds of invincibility\nThis effect has a 120-second cooldown\nNot used in any further crafting recipe"
+        "zh": "受到致命伤害时复苏至 25% 最大生命，并获得 8 秒无敌\n此效果有 120 秒冷却时间\n不参与任何向上合成",
+        "en": "Fatal damage revives you at 25% maximum life and grants 8 seconds of invincibility\nThis effect has a 120-second cooldown\nNot used in any further crafting recipe"
       },
       "description": {
         "zh": "",
@@ -13643,7 +14118,7 @@
       "portraitImage": "./assets/content/item/MoonfallCrossbow.png",
       "frames": 1,
       "stats": {
-        "damage": 180,
+        "damage": 216,
         "knockBack": 4,
         "rare": "Purple",
         "value": {
@@ -13893,6 +14368,116 @@
       "sourcePath": "Content/Items/Armor/MirrorCourtArmor.cs"
     },
     {
+      "id": "item/NestweaverCharm",
+      "internalName": "NestweaverCharm",
+      "kind": "item",
+      "category": "Accessories",
+      "subcategory": "",
+      "name": {
+        "zh": "织巢护符",
+        "en": "Nestweaver Charm"
+      },
+      "tooltip": {
+        "zh": "增加 1 个召唤栏",
+        "en": "Increases your max number of minions by 1"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/NestweaverCharm.png",
+      "portraitImage": "./assets/content/item/NestweaverCharm.png",
+      "frames": 1,
+      "stats": {
+        "accessory": true,
+        "rare": "Blue",
+        "value": {
+          "type": "coin",
+          "silver": 80
+        },
+        "width": 40,
+        "height": 40
+      },
+      "difficulty": {},
+      "recipes": [
+        {
+          "resultCount": 1,
+          "ingredients": [
+            {
+              "id": "Silk",
+              "count": 10,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "FlinxFur",
+              "count": 8,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "GoldBar",
+              "count": 8,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "FallenStar",
+              "count": 3,
+              "vanilla": true,
+              "group": false
+            }
+          ],
+          "station": "Loom",
+          "conditions": []
+        },
+        {
+          "resultCount": 1,
+          "ingredients": [
+            {
+              "id": "Silk",
+              "count": 10,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "FlinxFur",
+              "count": 8,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "PlatinumBar",
+              "count": 8,
+              "vanilla": true,
+              "group": false
+            },
+            {
+              "id": "FallenStar",
+              "count": 3,
+              "vanilla": true,
+              "group": false
+            }
+          ],
+          "station": "Loom",
+          "conditions": []
+        }
+      ],
+      "stage": {
+        "key": "pre-boss",
+        "zh": "Boss 前",
+        "en": "Pre-Boss",
+        "order": 0.8
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Accessories/EarlyClassAccessories.cs"
+    },
+    {
       "id": "item/SporetrailHood",
       "internalName": "SporetrailHood",
       "kind": "item",
@@ -14094,6 +14679,72 @@
       "sourcePath": "Content/Items/Armor/WatcherArmor.cs"
     },
     {
+      "id": "item/HX301ManaOverdrive",
+      "internalName": "HX301ManaOverdrive",
+      "kind": "item",
+      "category": "Accessories",
+      "subcategory": "",
+      "name": {
+        "zh": "HX-301 魔力超驱器",
+        "en": "HX-301 Mana Overdrive"
+      },
+      "tooltip": {
+        "zh": "最终魔力消耗翻倍\n最终魔力回复速度降低 50%\n来自你的魔法伤害弹幕每次命中额外造成相当于当前魔力值 60% 的伤害",
+        "en": "Final mana cost is doubled\nFinal mana regeneration rate is reduced by 50%\nMagic-damage projectiles originating from you deal additional damage equal to 60% of your current mana on each hit"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/item/HX301ManaOverdrive.png",
+      "portraitImage": "./assets/content/item/HX301ManaOverdrive.png",
+      "frames": 1,
+      "stats": {
+        "accessory": true,
+        "rare": "Lime",
+        "value": {
+          "type": "coin",
+          "gold": 6
+        },
+        "width": 40,
+        "height": 40
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": {
+        "key": "post-plantera",
+        "zh": "世纪之花后",
+        "en": "Post-Plantera",
+        "order": 12.5,
+        "accent": "#61e0ce",
+        "shortZh": "测绘与舰炮",
+        "shortEn": "Surveying and artillery"
+      },
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Items/Accessories/HX301ManaOverdrive.cs",
+      "dropSources": [
+        {
+          "source": "HX301TreasureBag",
+          "sourceKind": "item",
+          "chanceDenominator": null,
+          "minimum": 1,
+          "maximum": 1
+        },
+        {
+          "source": "AstralCruiserHX301Boss",
+          "sourceKind": "npc",
+          "chanceDenominator": null,
+          "minimum": 1,
+          "maximum": 1
+        }
+      ]
+    },
+    {
       "id": "buff/ResidualStarWardenBuff",
       "internalName": "ResidualStarWardenBuff",
       "kind": "buff",
@@ -14129,6 +14780,43 @@
       "isBoss": false,
       "isInternal": false,
       "sourcePath": "Content/Buffs/ResidualStarWardenBuff.cs"
+    },
+    {
+      "id": "buff/RedErosionDebuff",
+      "internalName": "RedErosionDebuff",
+      "kind": "buff",
+      "category": "Buffs",
+      "subcategory": "",
+      "name": {
+        "zh": "赤蚀",
+        "en": "Red Erosion"
+      },
+      "tooltip": {
+        "zh": "防御降低 30%",
+        "en": "Defense is reduced by 30%"
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/buff/RedErosionDebuff.png",
+      "portraitImage": "./assets/content/buff/RedErosionDebuff.png",
+      "frames": 1,
+      "stats": {
+        "debuff": true,
+        "noSave": true,
+        "noTimeDisplay": false
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": false,
+      "sourcePath": "Content/Buffs/RedErosionDebuff.cs"
     },
     {
       "id": "buff/SeamwingRayBuff",
@@ -19116,6 +19804,45 @@
       "sourcePath": "Content/Projectiles/Hostile/Biomes/UndergroundDesert/StarvaultSandColumnController.cs"
     },
     {
+      "id": "projectile/StarwovenSiphonMote",
+      "internalName": "StarwovenSiphonMote",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Starwoven Siphon Mote",
+        "en": "Starwoven Siphon Mote"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {
+        "timeLeft": 180,
+        "penetrate": -1,
+        "tileCollide": false,
+        "width": 12,
+        "height": 12
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/StarwovenSiphonMote.cs"
+    },
+    {
       "id": "projectile/StarwovenWeaveSpore",
       "internalName": "StarwovenWeaveSpore",
       "kind": "projectile",
@@ -19156,6 +19883,293 @@
       "isBoss": false,
       "isInternal": true,
       "sourcePath": "Content/Projectiles/Friendly/BossMaterialArmorSetProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldArrayProjectile",
+      "internalName": "SuihuaManifoldArrayProjectile",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Array Projectile",
+        "en": "Suihua Manifold Array Projectile"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/projectile/SuihuaManifoldArrayProjectile.png",
+      "portraitImage": "./assets/content/projectile/SuihuaManifoldArrayProjectile.png",
+      "frames": 1,
+      "stats": {
+        "DamageType": "Magic",
+        "timeLeft": 2,
+        "penetrate": -1,
+        "friendly": false,
+        "hostile": false,
+        "tileCollide": false,
+        "width": 16,
+        "height": 16,
+        "scale": "ArrayVisualScale + MathF.Sin(Age * 0.065f) * 0.035f"
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldBlueAttachment",
+      "internalName": "SuihuaManifoldBlueAttachment",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Friendly",
+      "name": {
+        "zh": "Suihua Manifold Blue Attachment",
+        "en": "Suihua Manifold Blue Attachment"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "./assets/content/projectile/SuihuaManifoldBlueAttachment.png",
+      "portraitImage": "./assets/content/projectile/SuihuaManifoldBlueAttachment.png",
+      "frames": 1,
+      "stats": {
+        "DamageType": "Magic",
+        "timeLeft": 180,
+        "penetrate": -1,
+        "friendly": true,
+        "hostile": false,
+        "tileCollide": false,
+        "width": 16,
+        "height": 16
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldBlueStream",
+      "internalName": "SuihuaManifoldBlueStream",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Blue Stream",
+        "en": "Suihua Manifold Blue Stream"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {},
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldGreenStream",
+      "internalName": "SuihuaManifoldGreenStream",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Green Stream",
+        "en": "Suihua Manifold Green Stream"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {},
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldPurpleStream",
+      "internalName": "SuihuaManifoldPurpleStream",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Purple Stream",
+        "en": "Suihua Manifold Purple Stream"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {
+        "penetrate": -1
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldRedStream",
+      "internalName": "SuihuaManifoldRedStream",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Red Stream",
+        "en": "Suihua Manifold Red Stream"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {},
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldYellowFragment",
+      "internalName": "SuihuaManifoldYellowFragment",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Yellow Fragment",
+        "en": "Suihua Manifold Yellow Fragment"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {
+        "timeLeft": 240
+      },
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
+    },
+    {
+      "id": "projectile/SuihuaManifoldYellowStream",
+      "internalName": "SuihuaManifoldYellowStream",
+      "kind": "projectile",
+      "category": "Projectiles",
+      "subcategory": "Utility",
+      "name": {
+        "zh": "Suihua Manifold Yellow Stream",
+        "en": "Suihua Manifold Yellow Stream"
+      },
+      "tooltip": {
+        "zh": "",
+        "en": ""
+      },
+      "description": {
+        "zh": "",
+        "en": ""
+      },
+      "spawnInfo": {
+        "zh": "",
+        "en": ""
+      },
+      "image": "",
+      "portraitImage": "",
+      "frames": 1,
+      "stats": {},
+      "difficulty": {},
+      "recipes": [],
+      "stage": null,
+      "isBoss": false,
+      "isInternal": true,
+      "sourcePath": "Content/Projectiles/Friendly/SuihuaManifoldProjectiles.cs"
     },
     {
       "id": "projectile/SutureKnotController",
